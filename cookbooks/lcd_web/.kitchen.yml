@@ -10,6 +10,7 @@ provisioner:
   # For example:
   #   always_update_cookbooks: <%= !ENV['CI'] %>
   always_update_cookbooks: true
+  environments_path: ../../environments
 
 verifier:
   name: inspec
@@ -22,6 +23,9 @@ platforms:
 
 suites:
   - name: default
+    provisioner:
+      client_rb:
+        environment: development
     run_list:
       - recipe[lcd_web::default]
     verifier:

@@ -23,6 +23,6 @@ end
   end
 end
 
-describe package('ruby') do
+describe package('php-cli') do
   it { should be_installed }
 end
