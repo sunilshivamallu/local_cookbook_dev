@@ -8,12 +8,10 @@ include_recipe 'lcd_web::users'
 
 node.default['app']['language'] = 'ruby'
 
-package 'httpd' do
-	action :install
-end
 
-service 'httpd' do
-	action [:enable, :start]
+hello_httpd 'greet hello' do
+  greeting "Hello"
+  action :create
 end
 
 package 'net-tools' do
@@ -24,14 +22,10 @@ package node['app']['language'] do
 	action :install
 end
 
-template '/var/www/html/index.html' do
-  source 'index.html.erb'
-  owner 'apache'
-  group 'apache'
-  mode '0755'
-  variables(
-    greeting_scope: 'World',
-    greeting: node['greeting'],
-    fqdn: node['fqdn']
-  )
+execute 'systemctl restart httpd' do
+  only_if { index_exists? }
 end
+
+
+
+
